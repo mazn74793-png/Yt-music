@@ -1,29 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #f97316;
+  --color-primary: #dc2626; /* Red-600 */
+  --color-accent: #ef4444; /* Red-500 */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-[#030303] text-white antialiased selection:bg-red-600/30;
   }
 }
 
 @layer utilities {
+  .text-huge {
+    @apply text-7xl font-black tracking-tighter leading-none;
+  }
+  
+  .border-glass {
+    @apply border border-white/10 bg-white/5 backdrop-blur-md;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+    @apply bg-white/10 rounded-full hover:bg-red-600/40 transition-colors;
   }
   
   .dashed {
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23FFFFFF20' stroke-width='2' stroke-dasharray='8%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23FFFFFF10' stroke-width='2' stroke-dasharray='8%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   }
 }

@@ -22,53 +22,53 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) =
   };
 
   return (
-    <div className="w-64 bg-black flex-shrink-0 flex flex-col border-r border-white/10 p-6 gap-8">
+    <div className="w-64 bg-[#030303] flex-shrink-0 flex flex-col border-r border-white/5 p-8 gap-10">
       <div className="flex items-center gap-3 px-2">
-        <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-          <ListMusic className="text-white w-5 h-5" />
+        <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center shadow-lg shadow-red-600/20">
+          <div className="w-4 h-4 bg-white transform rotate-45"></div>
         </div>
-        <span className="text-xl font-bold tracking-tight text-white">Harmonix</span>
+        <span className="text-2xl font-black tracking-tighter text-white">HARMONIX</span>
       </div>
 
-      <nav className="flex flex-col gap-2">
+      <nav className="flex flex-col gap-6">
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveView(item.id)}
-            className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${
+            className={`flex items-center gap-4 px-2 py-1 transition-all duration-200 group text-left ${
               activeView === item.id 
-                ? 'bg-orange-500/10 text-orange-500' 
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'text-white' 
+                : 'text-white/40 hover:text-white'
             }`}
           >
-            <item.icon className="w-5 h-5" />
-            <span className="font-medium text-sm">{item.label}</span>
+            <item.icon className={`w-5 h-5 ${activeView === item.id ? 'text-red-600' : 'text-current'}`} />
+            <span className="font-bold text-xs uppercase tracking-widest">{item.label}</span>
           </button>
         ))}
       </nav>
 
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between px-4">
-          <span className="text-white/30 text-[10px] font-bold uppercase tracking-widest">Your Collection</span>
-          <button onClick={handleCreatePlaylist} className="text-white/30 hover:text-white transition-colors">
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center justify-between px-2">
+          <span className="text-white/20 text-[10px] font-black uppercase tracking-[0.2em]">Playlists</span>
+          <button onClick={handleCreatePlaylist} className="text-white/20 hover:text-white transition-colors">
             <PlusCircle className="w-4 h-4" />
           </button>
         </div>
         
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-4">
           <button 
             onClick={() => setActiveView('library')}
-            className={`flex items-center gap-4 px-4 py-2 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all group ${activeView === 'library' ? 'text-white' : ''}`}
+            className={`flex items-center gap-4 px-2 py-1 text-white/40 hover:text-white transition-all group ${activeView === 'library' ? 'text-white' : ''}`}
           >
-            <Heart className={`w-4 h-4 ${activeView === 'library' ? 'fill-orange-500 text-orange-500' : 'group-hover:text-orange-500'}`} />
-            <span className="text-sm font-medium">Liked Songs</span>
+            <Heart className={`w-4 h-4 ${activeView === 'library' ? 'fill-red-600 text-red-600' : ''}`} />
+            <span className="text-xs font-bold uppercase tracking-widest">Liked Songs</span>
           </button>
 
           {state.playlists.map(playlist => (
             <button 
               key={playlist.id}
               onClick={() => setActiveView(`playlist-${playlist.id}`)}
-              className="px-4 py-2 text-left text-sm text-white/50 hover:text-white truncate transition-all"
+              className="px-2 py-1 text-left text-xs font-bold uppercase tracking-widest text-white/30 hover:text-red-500 truncate transition-all"
             >
               {playlist.name}
             </button>

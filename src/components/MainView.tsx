@@ -44,38 +44,38 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
   const renderContent = () => {
     if (activeView === 'search') {
       return (
-        <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto">
+        <div className="flex flex-col gap-10 w-full max-w-5xl mx-auto">
           <div className="relative group">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-orange-500 transition-colors" />
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-red-500 transition-colors" />
             <input
               autoFocus
               type="text"
-              placeholder="Search for songs, artists, or albums..."
+              placeholder="SEARCH EVERYTHING..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-6 text-lg text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-6 pl-16 pr-6 text-xl font-black uppercase tracking-tighter text-white focus:outline-none focus:border-red-600/50 focus:bg-white/10 transition-all placeholder:text-white/10"
             />
           </div>
 
           <div className="flex flex-col gap-2">
             <AnimatePresence mode="popLayout">
               {isSearching ? (
-                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex py-12 justify-center">
-                    <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex py-24 justify-center">
+                    <div className="w-10 h-10 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
                  </motion.div>
               ) : searchResults.length > 0 ? (
                 searchResults.map((song) => (
                   <SongCard key={song.youtubeId} song={song} />
                 ))
               ) : searchQuery && !isSearching ? (
-                 <div className="py-20 text-center text-white/30">
-                    <Search className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                    <p>No results found for "{searchQuery}"</p>
+                 <div className="py-32 text-center">
+                    <Search className="w-16 h-16 mx-auto mb-6 opacity-5 text-red-600" />
+                    <p className="text-2xl font-black uppercase tracking-tighter text-white/20">Nothing found for "{searchQuery}"</p>
                  </div>
               ) : (
-                <div className="py-20 text-center text-white/30">
-                  <Music className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                  <p>Start searching for your favorite music</p>
+                <div className="py-32 text-center">
+                  <Music className="w-16 h-16 mx-auto mb-6 opacity-5 text-red-600" />
+                  <p className="text-2xl font-black uppercase tracking-tighter text-white/20">Discovery starts with a search</p>
                 </div>
               )}
             </AnimatePresence>
@@ -86,26 +86,28 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
 
     if (activeView === 'library') {
       return (
-        <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto">
-          <div className="flex items-end gap-6 mb-4">
-             <div className="w-48 h-48 bg-gradient-to-br from-orange-500 to-rose-600 rounded-3xl shadow-2xl flex items-center justify-center">
-                <Heart className="w-20 h-20 text-white fill-white shadow-inner" />
+        <div className="flex flex-col gap-10 w-full max-w-5xl mx-auto">
+          <div className="flex items-end gap-10 mb-8">
+             <div className="w-64 h-64 bg-gradient-to-br from-red-600 to-black rounded-2xl shadow-2xl flex items-center justify-center p-1 border border-white/10">
+                <div className="w-full h-full bg-black/40 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                  <Heart className="w-24 h-24 text-white fill-white shadow-xl" />
+                </div>
              </div>
-             <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Playlist</span>
-                <h1 className="text-6xl font-black tracking-tighter text-white">Liked Songs</h1>
-                <p className="text-sm text-white/60 font-medium">{state.library.length} songs • Saved to your library</p>
+             <div className="flex flex-col gap-4">
+                <span className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Library</span>
+                <h1 className="text-9xl font-black tracking-tighter text-white leading-none">LIKED<br/>SONGS</h1>
+                <p className="text-xs text-white/30 font-black uppercase tracking-[0.2em]">{state.library.length} tracks preserved in your vault</p>
              </div>
           </div>
           
-          <div className="flex flex-col gap-1 mt-8">
+          <div className="flex flex-col gap-2 mt-8">
             {state.library.map((song, i) => (
               <SongCard key={song.youtubeId} song={song} index={i + 1} />
             ))}
             {state.library.length === 0 && (
-              <div className="py-20 text-center text-white/30 dashed border-2 border-white/5 rounded-3xl">
-                <Heart className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                <p>Your library is empty. Like some songs to see them here.</p>
+              <div className="py-32 text-center dashed border border-white/5 rounded-3xl">
+                <Heart className="w-16 h-16 mx-auto mb-6 opacity-5 text-red-600" />
+                <p className="text-xl font-black uppercase tracking-tighter text-white/10">Your vault is empty</p>
               </div>
             )}
           </div>
@@ -119,30 +121,30 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
       if (!playlist) return <div>Playlist not found</div>;
 
       return (
-        <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto">
-          <div className="flex items-end gap-6 mb-4">
-             <div className="w-48 h-48 bg-white/5 rounded-3xl shadow-2xl flex items-center justify-center border border-white/10 group overflow-hidden relative">
+        <div className="flex flex-col gap-10 w-full max-w-5xl mx-auto">
+          <div className="flex items-end gap-10 mb-8">
+             <div className="w-64 h-64 bg-white/5 rounded-2xl shadow-2xl flex items-center justify-center border border-white/5 group overflow-hidden relative">
                 {playlist.songs[0]?.thumbnailUrl ? (
-                   <img src={playlist.songs[0].thumbnailUrl} className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-500" />
+                   <img src={playlist.songs[0].thumbnailUrl} className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt={playlist.name} />
                 ) : (
-                  <ListMusic className="w-20 h-20 text-white/20" />
+                  <ListMusic className="w-20 h-20 text-white/10" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
              </div>
-             <div className="flex flex-col gap-2 z-10">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Playlist</span>
-                <h1 className="text-6xl font-black tracking-tighter text-white">{playlist.name}</h1>
-                <p className="text-sm text-white/60 font-medium">{playlist.songs.length} songs • {new Date(playlist.createdAt).toLocaleDateString()}</p>
+             <div className="flex flex-col gap-4 z-10">
+                <span className="text-xs font-black uppercase tracking-[0.4em] text-red-600">Collection</span>
+                <h1 className="text-8xl font-black tracking-tighter text-white leading-none uppercase">{playlist.name}</h1>
+                <p className="text-xs text-white/30 font-black uppercase tracking-[0.2em]">{playlist.songs.length} tracks • curated on {new Date(playlist.createdAt).toLocaleDateString()}</p>
              </div>
           </div>
 
-          <div className="flex flex-col gap-1 mt-8">
+          <div className="flex flex-col gap-2 mt-8">
             {playlist.songs.map((song, i) => (
               <SongCard key={song.youtubeId} song={song} index={i + 1} />
             ))}
             {playlist.songs.length === 0 && (
-               <div className="py-20 text-center text-white/30 dashed border-2 border-white/5 rounded-3xl">
-                 <p>This playlist is empty. Add some songs from search results.</p>
+               <div className="py-32 text-center dashed border border-white/5 rounded-3xl">
+                 <p className="text-xl font-black uppercase tracking-tighter text-white/10">This collection is silent</p>
                </div>
             )}
           </div>
@@ -152,33 +154,38 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
 
     // Default Home
     return (
-      <div className="flex flex-col gap-12 w-full max-w-4xl mx-auto">
+      <div className="flex flex-col gap-20 w-full max-w-5xl mx-auto">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Recently Played</h2>
+          <h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600 mb-8">Recently Played</h2>
           {state.history.length > 0 ? (
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-3">
               {state.history.slice(0, 5).map(song => (
                 <SongCard key={song.youtubeId} song={song} />
               ))}
             </div>
           ) : (
-            <div className="p-12 bg-white/5 rounded-3xl text-center border border-white/10">
-               <Music className="w-10 h-10 mx-auto mb-4 opacity-20 text-orange-500" />
-               <p className="text-white/40 font-medium">Your history will appear here</p>
+            <div className="p-24 bg-white/5 rounded-2xl text-center border border-white/5">
+               <Music className="w-12 h-12 mx-auto mb-6 opacity-5 text-red-600" />
+               <p className="text-sm font-black uppercase tracking-widest text-white/20">The silence is waiting to be broken</p>
             </div>
           )}
         </div>
 
         <div>
-           <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Quick Picks</h2>
-           <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-600 to-purple-800 flex flex-col justify-between h-48 cursor-pointer hover:scale-[1.02] transition-all" onClick={() => setActiveView('library')}>
-                 <Heart className="w-10 h-10 text-white fill-white" />
-                 <h3 className="text-2xl font-bold text-white">Liked Songs</h3>
+           <h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600 mb-8">Essential Collections</h2>
+           <div className="grid grid-cols-2 gap-8">
+              <div className="group relative p-12 rounded-2xl bg-gradient-to-br from-red-600 to-black overflow-hidden h-72 cursor-pointer shadow-2xl" onClick={() => setActiveView('library')}>
+                 <div className="absolute top-0 left-0 w-full h-full bg-black/40 group-hover:bg-transparent transition-all duration-500"></div>
+                 <div className="relative z-10 flex flex-col justify-between h-full">
+                    <Heart className="w-16 h-16 text-white fill-white shadow-2xl" />
+                    <h3 className="text-6xl font-black tracking-tighter text-white">THE<br/>VAULT</h3>
+                 </div>
               </div>
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-orange-500 to-rose-600 flex flex-col justify-between h-48 cursor-pointer hover:scale-[1.02] transition-all" onClick={() => setSearchQuery('Latest Hits')}>
-                 <Search className="w-10 h-10 text-white" />
-                 <h3 className="text-2xl font-bold text-white">Top Hits</h3>
+              <div className="group relative p-12 rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/5 overflow-hidden h-72 cursor-pointer hover:bg-white/10 transition-all shadow-2xl" onClick={() => setSearchQuery('Top 100')}>
+                 <div className="relative z-10 flex flex-col justify-between h-full">
+                    <Search className="w-16 h-16 text-red-600" />
+                    <h3 className="text-6xl font-black tracking-tighter text-white">TOP<br/>PEAKS</h3>
+                 </div>
               </div>
            </div>
         </div>
@@ -187,24 +194,25 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
   };
 
   return (
-    <div className="flex-grow overflow-y-auto bg-gradient-to-b from-[#1a1a1a] to-black overscroll-none px-12 py-8">
-      <div className="flex items-center justify-between mb-12">
-        <div className="flex items-center gap-2">
-          <button onClick={() => window.history.back()} className="p-2 bg-black/40 rounded-full text-white/50 hover:text-white hover:bg-black/60 transition-all">
+    <div className="flex-grow overflow-y-auto bg-[#030303] px-16 py-12">
+      <div className="flex items-center justify-between mb-16">
+        <div className="flex items-center gap-4">
+          <button onClick={() => window.history.back()} className="p-3 bg-white/5 rounded-full text-white/20 hover:text-white hover:bg-white/10 border border-white/5 transition-all">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button onClick={() => window.history.forward()} className="p-2 bg-black/40 rounded-full text-white/50 hover:text-white hover:bg-black/60 transition-all">
+          <button onClick={() => window.history.forward()} className="p-3 bg-white/5 rounded-full text-white/20 hover:text-white hover:bg-white/10 border border-white/5 transition-all">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
+          <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded text-[10px] font-black uppercase tracking-[0.2em] text-red-500">Premium Access</div>
           <button 
             onClick={handleLogin}
-            className="flex items-center gap-2 px-6 py-2 bg-white text-black rounded-full text-sm font-bold hover:scale-105 transition-all shadow-lg active:scale-95"
+            className="flex items-center gap-3 px-8 py-3 bg-white text-black rounded font-black text-xs uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-2xl active:scale-95"
           >
             <LogIn className="w-4 h-4" />
-            Connect YouTube
+            Connect
           </button>
         </div>
       </div>

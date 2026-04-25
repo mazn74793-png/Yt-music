@@ -31,11 +31,11 @@ export const SongCard: React.FC<SongCardProps> = ({ song, index, showIndex }) =>
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.01 }}
       onClick={handlePlay}
-      className={`group flex items-center gap-4 p-3 rounded-2xl cursor-pointer transition-all ${
-        isCurrent ? 'bg-orange-500/10 border border-orange-500/20' : 'hover:bg-white/5 border border-transparent'
+      className={`group flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all border ${
+        isCurrent ? 'bg-red-600/5 border-red-600/50' : 'hover:bg-white/5 border-transparent'
       }`}
     >
-      <div className="relative flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-white/5">
+      <div className="relative flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-white/5 shadow-lg">
         {song.thumbnailUrl ? (
           <img src={song.thumbnailUrl} alt={song.title} className="w-full h-full object-cover" />
         ) : (
@@ -44,25 +44,25 @@ export const SongCard: React.FC<SongCardProps> = ({ song, index, showIndex }) =>
           </div>
         )}
         <div className={`absolute inset-0 bg-black/40 items-center justify-center group-hover:flex hidden ${isCurrent && state.isPlaying ? 'flex' : ''}`}>
-           <Play className={`w-5 h-5 text-white fill-white ${isCurrent && state.isPlaying ? 'animate-pulse' : ''}`} />
+           <Play className={`w-5 h-5 text-red-600 fill-red-600 ${isCurrent && state.isPlaying ? 'animate-pulse' : ''}`} />
         </div>
       </div>
 
       <div className="flex-grow min-w-0">
-        <h4 className={`text-sm font-semibold truncate ${isCurrent ? 'text-orange-500' : 'text-white'}`}>{song.title}</h4>
-        <p className="text-xs text-white/50 truncate">
+        <h4 className={`text-sm font-bold uppercase tracking-tight truncate ${isCurrent ? 'text-red-500' : 'text-white'}`}>{song.title}</h4>
+        <p className="text-[10px] uppercase font-black tracking-widest text-white/30 truncate">
           {song.artists.map(a => a.name).join(', ')} {song.album ? `• ${song.album}` : ''}
         </p>
       </div>
 
-      <div className="flex items-center gap-3 text-white/30">
+      <div className="flex items-center gap-3 text-white/20">
         <button 
           onClick={toggleLibrary}
-          className={`transition-colors flex items-center justify-center ${isInLibrary ? 'text-orange-500' : 'hover:text-white'}`}
+          className={`transition-colors flex items-center justify-center ${isInLibrary ? 'text-red-500' : 'hover:text-white'}`}
         >
-          <Heart className={`w-4 h-4 ${isInLibrary ? 'fill-orange-500' : ''}`} />
+          <Heart className={`w-4 h-4 ${isInLibrary ? 'fill-red-500' : ''}`} />
         </button>
-        <span className="text-[10px] font-mono tabular-nums w-10 text-right opacity-50">
+        <span className="text-[10px] font-mono tabular-nums w-10 text-right opacity-40">
           {song.duration?.label || '0:00'}
         </span>
         <button className="hover:text-white transition-colors opacity-0 group-hover:opacity-100">

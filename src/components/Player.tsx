@@ -45,7 +45,7 @@ export const Player: React.FC = () => {
   };
 
   return (
-    <div className="h-24 bg-black/90 backdrop-blur-2xl border-t border-white/5 px-6 flex items-center justify-between gap-12 z-50">
+    <div className="h-28 bg-[#030303] border-t border-white/10 px-10 flex items-center justify-between gap-16 z-50 shadow-[0_-20px_50px_-12px_rgba(0,0,0,0.5)]">
       {/* Hidden Player */}
       <div className="hidden">
         <ReactPlayer
@@ -65,43 +65,43 @@ export const Player: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center gap-4 w-1/3 min-w-0">
+      <div className="flex items-center gap-6 w-1/4 min-w-0">
         <motion.div 
           layoutId="player-art"
-          className="w-14 h-14 rounded-xl overflow-hidden shadow-2xl bg-white/5"
+          className="w-16 h-16 rounded shadow-2xl bg-white/5 border border-white/10 overflow-hidden"
         >
-          <img src={currentSong.thumbnailUrl} alt={currentSong.title} className="w-full h-full object-cover" />
+          <img src={currentSong.thumbnailUrl} alt={currentSong.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
         </motion.div>
         <div className="flex flex-col min-w-0">
-          <h3 className="text-sm font-bold text-white truncate hover:underline cursor-pointer">{currentSong.title}</h3>
-          <p className="text-[11px] text-white/50 truncate">
+          <h3 className="text-sm font-black uppercase tracking-tight text-white truncate hover:text-red-500 cursor-pointer transition-colors">{currentSong.title}</h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 truncate">
              {currentSong.artists.map(a => a.name).join(', ')}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-2 flex-grow max-w-xl">
-        <div className="flex items-center gap-6">
-          <button className="text-white/40 hover:text-white transition-colors"><Shuffle className="w-4 h-4" /></button>
-          <button className="text-white hover:scale-110 active:scale-95 transition-all"><SkipBack className="w-5 h-5 fill-current" /></button>
+      <div className="flex flex-col items-center gap-4 flex-grow max-w-2xl px-12">
+        <div className="flex items-center gap-10">
+          <button className="text-white/20 hover:text-white transition-colors"><Shuffle className="w-4 h-4" /></button>
+          <button className="text-white hover:text-red-500 hover:scale-110 active:scale-95 transition-all"><SkipBack className="w-6 h-6 fill-current" /></button>
           <button 
             onClick={() => dispatch({ type: 'SET_PLAYING', isPlaying: !isPlaying })}
-            className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-105 active:scale-90 transition-all shadow-xl"
+            className="w-14 h-14 bg-white text-black rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-all shadow-2xl active:scale-90"
           >
-            {isPlaying ? <Pause className="text-black w-5 h-5 fill-current" /> : <Play className="text-black w-5 h-5 fill-current ml-1" />}
+            {isPlaying ? <Pause className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current ml-1" />}
           </button>
           <button 
             onClick={handleNext}
-            className="text-white hover:scale-110 active:scale-95 transition-all"
+            className="text-white hover:text-red-500 hover:scale-110 active:scale-95 transition-all"
           >
-            <SkipForward className="w-5 h-5 fill-current" />
+            <SkipForward className="w-6 h-6 fill-current" />
           </button>
-          <button className="text-white/40 hover:text-white transition-colors"><Repeat className="w-4 h-4" /></button>
+          <button className="text-white/20 hover:text-white transition-colors"><Repeat className="w-4 h-4" /></button>
         </div>
         
-        <div className="flex items-center gap-3 w-full">
-          <span className="text-[10px] font-mono p-1 tabular-nums text-white/30 text-right w-10">{formatTime(played * duration)}</span>
-          <div className="relative flex-grow h-1 group cursor-pointer">
+        <div className="flex items-center gap-4 w-full">
+          <span className="text-[10px] font-black uppercase tracking-widest tabular-nums text-white/20 text-right w-12">{formatTime(played * duration)}</span>
+          <div className="relative flex-grow h-[3px] group cursor-pointer">
              <input
                 type="range"
                 min={0}
@@ -111,27 +111,27 @@ export const Player: React.FC = () => {
                 onChange={handleSeekChange}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
              />
-             <div className="absolute inset-0 bg-white/10 rounded-full"></div>
+             <div className="absolute inset-0 bg-white/5 rounded-full"></div>
              <div 
-               className="absolute inset-0 bg-white rounded-full transition-all group-hover:bg-orange-500" 
+               className="absolute inset-0 bg-red-600 rounded-full transition-all" 
                style={{ width: `${played * 100}%` }}
              ></div>
              <div 
-               className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+               className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity"
                style={{ left: `${played * 100}%`, transform: `translate(-50%, -50%)` }}
              ></div>
           </div>
-          <span className="text-[10px] font-mono tabular-nums text-white/30 w-10 text-left">{formatTime(duration)}</span>
+          <span className="text-[10px] font-black uppercase tracking-widest tabular-nums text-white/20 w-12 text-left">{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-4 w-1/3">
-        <button className="text-white/40 hover:text-white transition-colors"><ListStart className="w-4 h-4" /></button>
-        <div className="flex items-center gap-2 group max-w-[120px] w-full">
-          <button onClick={() => setIsMuted(!isMuted)} className="text-white/40 hover:text-white transition-colors">
-            {isMuted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+      <div className="flex items-center justify-end gap-6 w-1/4">
+        <button className="text-white/20 hover:text-white transition-colors"><ListStart className="w-5 h-5" /></button>
+        <div className="flex items-center gap-3 group max-w-[120px] w-full">
+          <button onClick={() => setIsMuted(!isMuted)} className="text-white/20 hover:text-white transition-colors">
+            {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </button>
-          <div className="relative flex-grow h-1 cursor-pointer">
+          <div className="relative flex-grow h-[3px] cursor-pointer">
             <input
               type="range"
               min={0}
@@ -141,11 +141,11 @@ export const Player: React.FC = () => {
               onChange={(e) => setVolume(parseFloat(e.target.value))}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             />
-            <div className="absolute inset-0 bg-white/10 rounded-full"></div>
-            <div className="absolute inset-0 bg-white/60 rounded-full group-hover:bg-orange-500" style={{ width: `${volume * 100}%` }}></div>
+            <div className="absolute inset-0 bg-white/5 rounded-full"></div>
+            <div className="absolute inset-0 bg-white/40 rounded-full group-hover:bg-red-600" style={{ width: `${volume * 100}%` }}></div>
           </div>
         </div>
-        <button className="text-white/40 hover:text-white transition-colors"><Maximize2 className="w-4 h-4" /></button>
+        <button className="text-white/20 hover:text-white transition-colors"><Maximize2 className="w-5 h-5" /></button>
       </div>
     </div>
   );
