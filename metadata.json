@@ -1,0 +1,6 @@
+{
+  "name": "Harmonix",
+  "description": "A premium music experience powered by YouTube Music, featuring custom playlists, library management, and a polished UI.",
+  "requestFramePermissions": ["clipboard-read", "clipboard-write"],
+  "majorCapabilities": ["Music Playback", "Playlist Management", "YouTube Integration"]
+}
