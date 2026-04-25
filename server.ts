@@ -108,9 +108,14 @@ async function startServer() {
     });
   }
 
+  if (process.env.VERCEL) {
+    return app;
+  }
+
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
+  return app;
 }
 
-startServer().catch(console.error);
+export default startServer().catch(console.error);
