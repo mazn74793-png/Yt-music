@@ -11,7 +11,12 @@ export const searchSongs = async (query: string): Promise<Song[]> => {
   }
 };
 
-export const getAuthUrl = async (): Promise<string> => {
-  const response = await axios.get("/api/auth/url");
-  return response.data.url;
+export const getAuthUrl = async (): Promise<{url: string, error?: string}> => {
+  try {
+    const response = await axios.get("/api/auth/url");
+    return response.data;
+  } catch (error: any) {
+    console.error("Search API Error:", error);
+    return { url: "", error: error.response?.data?.error || "Failed to contact server" };
+  }
 };

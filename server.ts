@@ -47,13 +47,21 @@ async function startServer() {
 
   app.get("/api/auth/url", (req, res) => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
+    const appUrl = process.env.APP_URL;
+
+    console.log("OAuth Request - Client ID exists:", !!clientId);
+    console.log("OAuth Request - App URL:", appUrl);
+
     if (!clientId) {
-      return res.json({ url: "", error: "Missing Client ID" });
+      return res.status(400).json({ url: "", error: "Missing GOOGLE_CLIENT_ID in environment variables" });
+    }
+    if (!appUrl) {
+      return res.status(400).json({ url: "", error: "Missing APP_URL in environment variables" });
     }
 
     const params = new URLSearchParams({
       client_id: clientId,
-      redirect_uri: `${process.env.APP_URL}/auth/callback`,
+      redirect_uri: `${appUrl.replace(/\/$/, '')}/auth/callback`,
       response_type: 'code',
       scope: 'https://www.googleapis.com/auth/youtube.readonly',
       access_type: 'offline',

@@ -37,18 +37,25 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
 
   const handleLogin = async () => {
     try {
-      const url = await getAuthUrl();
-      if (!url || url.includes('client_id=&')) {
-        alert('مفاتيح Google API ناقصة. يرجى إضافتها في الإعدادات (Settings > Secrets).');
+      const { url, error } = await getAuthUrl();
+      
+      if (error) {
+        alert(`مشكلة في الإعدادات: ${error}\n\nتأكد من إضافة GOOGLE_CLIENT_ID و APP_URL في الـ Secrets.`);
         return;
       }
+
+      if (!url) {
+        alert('حدث خطأ غير معروف، لم يتم إنشاء رابط الدخول.');
+        return;
+      }
+
       const popup = window.open(url, 'youtube_auth', 'width=600,height=600');
       if (!popup || popup.closed || typeof popup.closed === 'undefined') {
         alert('يرجى السماح بالنوافذ المنبثقة (Popups) لتتمكن من تسجيل الدخول.');
       }
     } catch (error) {
       console.error("Login Error:", error);
-      alert('حدث خطأ أثناء محاولة الاتصال.');
+      alert('حدث خطأ تقني أثناء محاولة الاتصال بالخادم.');
     }
   };
 
