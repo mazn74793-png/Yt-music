@@ -36,9 +36,20 @@ export const MainView: React.FC<MainViewProps> = ({ activeView, setActiveView })
   }, [searchQuery, activeView]);
 
   const handleLogin = async () => {
-    const url = await getAuthUrl();
-    const popup = window.open(url, 'youtube_auth', 'width=600,height=600');
-    if (!popup) alert('Please allow popups');
+    try {
+      const url = await getAuthUrl();
+      if (!url || url.includes('client_id=&')) {
+        alert('مفاتيح Google API ناقصة. يرجى إضافتها في الإعدادات (Settings > Secrets).');
+        return;
+      }
+      const popup = window.open(url, 'youtube_auth', 'width=600,height=600');
+      if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+        alert('يرجى السماح بالنوافذ المنبثقة (Popups) لتتمكن من تسجيل الدخول.');
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert('حدث خطأ أثناء محاولة الاتصال.');
+    }
   };
 
   const renderContent = () => {

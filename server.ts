@@ -18,6 +18,8 @@ async function startServer() {
   app.use(express.json());
 
   // API Routes
+  app.get("/api/health", (req, res) => res.json({ status: "ok" }));
+
   app.get("/api/search", async (req, res) => {
     const { q } = req.query;
     if (!q) return res.status(400).json({ error: "Query required" });
@@ -43,10 +45,14 @@ async function startServer() {
     }
   });
 
-  // OAuth Routes (Template)
-  app.get('/api/auth/url', (req, res) => {
+  app.get("/api/auth/url", (req, res) => {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      return res.json({ url: "", error: "Missing Client ID" });
+    }
+
     const params = new URLSearchParams({
-      client_id: process.env.GOOGLE_CLIENT_ID || '',
+      client_id: clientId,
       redirect_uri: `${process.env.APP_URL}/auth/callback`,
       response_type: 'code',
       scope: 'https://www.googleapis.com/auth/youtube.readonly',
